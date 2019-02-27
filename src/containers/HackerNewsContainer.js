@@ -9,27 +9,39 @@ class HackerNewsContainer extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      articles: []
-
+      articles: [],
+      articleIds: []
     }
   }
 
-  // //This is to get the api of songs
+  // This is to get the api of songs
   componentDidMount(){
-
-    const urlTemplate = (articleNumber) => `https://hacker-news.firebaseio.com/v0/item/${articleNumber}.json`
-
     const arrayUrl = 'https://hacker-news.firebaseio.com/v0/topstories.json';
     fetch(arrayUrl)
-      .then(res => res.json())
-      .then(arrayOfIds => {
-        const allPromises = arrayOfIds.map(id => {
-          return fetch(urlTemplate(id)).then(res => res.json())
-        })
-        Promise.all(allPromises).then(data => this.setState({ articles: data }));
-      })
-
+    .then(res => res.json())
+    .then(data => this.setState(() => {
+      return { articleIds: data }
+    }))
+    .then(() => {
+      const allPromises = this.setupArticleRequestsSpliceOnArticleId()
+      Promise.all(allPromises).then(data => this.setState({ articles: data }));
+    });
   }
+
+  setupArticleRequestsSpliceOnArticleId(){
+    const top20Articles = this.state.articleIds.splice(0,20);
+    const allRequests = top20Articles.map((articleID) => {
+      return this.getArticles(articleID)
+    });
+    return allRequests;
+  }
+
+  getArticles(articleId){
+    const url = `https://hacker-news.firebaseio.com/v0/item/${articleId}.json`;
+    return fetch(url)
+    .then(res => res.json())
+  }
+
 
   render(){
     if(!this.state.articles){
