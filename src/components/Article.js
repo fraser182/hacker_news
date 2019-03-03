@@ -4,13 +4,12 @@ import '../styles/Article.css';
 const Article = (props) => {
 
 
-    return(
-      <div className="song-info">
-      <p>Article Position: { props.score} </p>
-      <p>Title: { props.title} </p>
-      </div>
-    )
-  }
+  return(
+    <div className="article-info">
+    <a href={props.article.url}>{props.article.title}</a>
+    </div>
+)
+}
 
 
 export default Article;

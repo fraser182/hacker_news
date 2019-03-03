@@ -11,24 +11,16 @@ class ArticleList extends React.Component {
     const articles = this.props.articles.map((article, index) => {
       return(
 
-        <Article
-        key={index}
-        score={article.score}
-        title={article.title}
-        />
-
+        <Article article = {article} key={index}/>
       )
-    }
-  )
+    });
+    return (
+      <div className='article-list'>
+      {articles}
+      </div>
 
-  return(
-    <div className="article-list">
-    <ul>
-    {articles}
-    </ul>
-    </div>
-  )
-}
+    );
+  }
 }
 
 export default ArticleList;

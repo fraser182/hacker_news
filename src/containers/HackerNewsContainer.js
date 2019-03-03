@@ -49,7 +49,7 @@ class HackerNewsContainer extends React.Component {
     }
     return (
       <div className="hacker-news-container">
-      <p> Hello from the Hacker News Container</p>
+
       <Header />
       <ArticleList articles={this.state.articles}/>
       </div>
